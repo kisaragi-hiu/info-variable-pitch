@@ -102,7 +102,8 @@
   ;;               '(Info-mode-font-lock-keywords t nil))
   ;; Just... set it directly. Sigh.
   (setq-local font-lock-keywords-case-fold-search nil)
-  (dolist (face '(font-lock-keyword-face))
+  (dolist (face '(font-lock-keyword-face
+                  Info-quoted))
     (when (facep face)
       (push (face-remap-add-relative face 'fixed-pitch)
             info-variable-pitch--face-remap-entries)))

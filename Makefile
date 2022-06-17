@@ -1,6 +1,7 @@
-compile: info-variable-pitch.elc
+.cask: Cask info-variable-pitch.el
+	cask install
 
-%.elc: %.el
-	emacs --batch -f batch-byte-compile $<
+compile: .cask
+	cask build
 
 .PHONY: compile

@@ -35,10 +35,10 @@
 (defvar-local info-variable-pitch--face-remap-entries nil)
 
 (defvar info-variable-pitch--font-lock-keywords
-  `(;; Error Messages and code blocks
-    ("^ +\\(?:(\\|error→\\).*" . 'fixed-pitch)
-    ;; 10+ spaces must be a code block
-    ("^[ \t]\\{10,\\}\\(.*\\)"
+  `(;; Error Messages, Lisp code blocks, diagrams
+    ("^ +\\(?:[(|-]\\|error→\\|nil\\).*" . 'fixed-pitch)
+    ;; 8+ spaces must be a code block, I hope...
+    ("^[ \t]\\{8,\\}\\(.*\\)"
      (0
       (let ((start (match-beginning 0))
             (end (match-end 0)))

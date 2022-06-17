@@ -114,13 +114,20 @@
   (setq-local font-lock-keywords-case-fold-search t)
   (mapc #'face-remap-remove-relative info-variable-pitch--face-remap-entries)
   (setq info-variable-pitch--face-remap-entries nil)
-  (font-lock-remove-keywords nil info-variable-pitch--font-lock-keywords)
-  (setq font-lock-keywords
-        '(t
-          (("‘\\([‘’]\\|[^‘’]*\\)’"
-            (1 'Info-quoted)))
-          ("‘\\([‘’]\\|[^‘’]*\\)’"
-           (1 'Info-quoted)))))
+  ;; This is useful during development to allow
+  ;; `info-variable-pitch--font-lock-keywords' to change without
+  ;; making it impossible to undo our changes, but it's wrong as
+  ;; Info's default keywords may not have stayed the same. Leaving it
+  ;; here commented out for convenience.
+  ;;
+  ;; (setq font-lock-keywords
+  ;;       '(t
+  ;;         (("‘\\([‘’]\\|[^‘’]*\\)’"
+  ;;           (1 'Info-quoted)))
+  ;;         ("‘\\([‘’]\\|[^‘’]*\\)’"
+  ;;          (1 'Info-quoted))))
+  ;;
+  (font-lock-remove-keywords nil info-variable-pitch--font-lock-keywords))
 
 ;;;###autoload
 (define-minor-mode info-variable-pitch-mode

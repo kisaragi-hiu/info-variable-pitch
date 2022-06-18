@@ -32,6 +32,21 @@
 (require 'face-remap)
 (require 's)
 
+(defgroup info-variable-pitch nil
+  "Settings for info-variable-pitch."
+  :group 'info
+  :prefix "info-variable-pitch-")
+
+(defcustom info-variable-pitch-want-upper-as-variable t
+  "Whether to fontify upper case as a variable.
+
+This makes Emacs Lisp docs look nicer at the expense of
+highlighting the likes of IEEE, GNU, REPL, FSF, etc. as if they
+are variables.
+
+This should be set before the package is loaded."
+  :group 'info-variable-pitch
+  :type 'boolean)
 (defvar-local info-variable-pitch--face-remap-entries nil)
 
 (defvar info-variable-pitch--font-lock-keywords
@@ -69,9 +84,9 @@
           (put-text-property
            start end
            'face 'fixed-pitch)))))
-    ;; Treat all UPPER-CASE to be variables
-    ("[[:upper:]][[:upper:]][[:upper:][:digit:]-]*"
-     . 'fixed-pitch)
+    ,@(when info-variable-pitch-want-upper-as-variable
+        ;; Treat all UPPER-CASE to be variables
+        '(("[[:upper:]][[:upper:]][[:upper:][:digit:]-]*" . 'fixed-pitch)))
     ;; See (info "(elisp)Buffer Text Notation")
     ;; Point location indicator.
     ("★" . 'font-lock-constant-face)

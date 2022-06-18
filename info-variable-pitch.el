@@ -47,7 +47,12 @@
               ;; an upper case letter.
               (seq "(" (not (any "A-Z"))))
           (* any))
-     . 'fixed-pitch)
+     (0
+      (let ((start (match-beginning 0))
+            (end (match-end 0)))
+        (put-text-property
+         start end
+         'face 'fixed-pitch))))
     ;; 8+ spaces must be a code block, I hope...
     ("^[ \t]\\{8,\\}\\(.*\\)"
      (0

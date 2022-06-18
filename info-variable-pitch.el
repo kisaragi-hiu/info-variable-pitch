@@ -1,7 +1,7 @@
 ;;; info-variable-pitch.el --- Proportional fonts in Info only when appropriate -*- lexical-binding: t -*-
 
 ;; Author: Kisaragi Hiu
-;; Version: 0.1
+;; Version: 0.2.0
 ;; Package-Requires: ((emacs "25.1") (s "1.12.0"))
 ;; Homepage: https://github.com/kisaragi-hiu/info-variable-pitch
 ;; Keywords: faces

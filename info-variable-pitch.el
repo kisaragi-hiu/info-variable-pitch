@@ -41,11 +41,18 @@
               "error→" ; error messages
               "nil"
               "$" ; shell
+              "#"
+              ;; (elisp)Integer Basics
+              (seq " " (opt (any "+-")) digit (any ". "))
               ;; Lisp code blocks
-              ;; Paren + upper case is more likely to be a bonus
-              ;; sentence than Lisp. Most callables don't start with
-              ;; an upper case letter.
-              (seq "(" (not (any "A-Z"))))
+              (seq "("
+                   ;; If the first character is upper case, this is
+                   ;; more likely to be prose. Most callables don't
+                   ;; start with an upper case letter.
+                   (not (any upper))
+                   ;; If this "form" is closed by the second
+                   ;; character, it's probably a bullet like (1).
+                   (not ")")))
           (* any))
      (0
       (let ((start (match-beginning 0))

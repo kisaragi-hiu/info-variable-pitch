@@ -35,8 +35,19 @@
 (defvar-local info-variable-pitch--face-remap-entries nil)
 
 (defvar info-variable-pitch--font-lock-keywords
-  `(;; Error Messages, Lisp code blocks, diagrams
-    ("^ +\\(?:[(|-]\\|error→\\|nil\\).*" . 'fixed-pitch)
+  `(;; Indented stuff
+    (,(rx bol (+ " ")
+          (or "|" "-" ; diagrams
+              "error→" ; error messages
+              "nil"
+              "$" ; shell
+              ;; Lisp code blocks
+              ;; Paren + upper case is more likely to be a bonus
+              ;; sentence than Lisp. Most callables don't start with
+              ;; an upper case letter.
+              (seq "(" (not (any "A-Z"))))
+          (* any))
+     . 'fixed-pitch)
     ;; 8+ spaces must be a code block, I hope...
     ("^[ \t]\\{8,\\}\\(.*\\)"
      (0

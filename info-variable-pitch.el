@@ -47,8 +47,19 @@ are variables.
 This should be set before the package is loaded."
   :group 'info-variable-pitch
   :type 'boolean)
+
+(defface info-variable-pitch-emphasis
+  `((t . (:inherit (bold italic))))
+  "Face used for emphasis like \"_this_\"."
+  :group 'info-variable-pitch)
+
 (defvar-local info-variable-pitch--face-remap-entries nil)
 
+;; A more robust way would be to literally parse the pages ourselves
+;; instead of relying on font-lock to do the right thing per line.
+;;
+;; This is err... a bit of a mess. But it works well enough most of
+;; the time.
 (defvar info-variable-pitch--font-lock-keywords
   `(;; Indented stuff
     (,(rx bol (+ " ")
@@ -129,7 +140,30 @@ This should be set before the package is loaded."
            (+ start (car pair))
            (+ start (cdr pair))
            'face '(fixed-pitch
-                   font-lock-type-face))))))))
+                   font-lock-type-face))))))
+    ;; Highlight _text-like-this_ as emphasis
+    ;; Example: (info "(org)Exporting")
+    (,(rx (group "_")
+          (group (*? (any alnum "-")))
+          (group "_"))
+     (1
+      (let ((start (match-beginning 1))
+            (end (match-end 1)))
+        (put-text-property
+         start end
+         'invisible t)))
+     (2
+      (let ((start (match-beginning 2))
+            (end (match-end 2)))
+        (put-text-property
+         start end
+         'face 'info-variable-pitch-emphasis)))
+     (3
+      (let ((start (match-beginning 3))
+            (end (match-end 3)))
+        (put-text-property
+         start end
+         'invisible t))))))
 
 (defun info-variable-pitch-mode--on ()
   "Do the actual work when enabling `info-variable-pitch-mode'."
